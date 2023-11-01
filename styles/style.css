@@ -311,7 +311,7 @@ section {
 }
 .contact-content-con .left-contact p {
   margin: 1rem 0;
-  line-height: 2rem;
+  line-height: 1rem;
 }
 .contact-content-con .left-contact .contact-info .contact-item {
   display: flex;

@@ -305,10 +305,6 @@ section {
 .contact-content-con .left-contact {
   flex: 2;
 }
-
-.contact-content-con .left-contact h4 {
-  font-size: larger;
-}
 .contact-content-con .left-contact p {
   margin: 1rem 0;
   line-height: 1rem;

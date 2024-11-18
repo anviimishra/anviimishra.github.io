@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "http://anviimishra.github.io/web",
+  "homepage": "http://anviimishra.github.io/web/src/App",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",

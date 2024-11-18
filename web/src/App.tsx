@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Github, Linkedin, Youtube, Mail, MapPin, Sparkles, GraduationCap, Download, ChevronRight, ExternalLink, Code, Brain, Phone, Sun, Moon, Book } from 'lucide-react';
 import myPic from "./mypicture.png";
 
 const Portfolio = () => {
   const [activeSection, setActiveSection] = useState('home');
   const [isTyping, setIsTyping] = useState(true);
-  const [hoveredProject, setHoveredProject] = useState(null);
+  const [hoveredProject, setHoveredProject] = useState<number | null>(null);
   const [animateSkills, setAnimateSkills] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(true);
 

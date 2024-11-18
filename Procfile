@@ -1,1 +1,1 @@
-web: pnpm dev
+web: pnpm preview

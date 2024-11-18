@@ -1,1 +1,1 @@
-web: vite preview
+web: pnpm dev

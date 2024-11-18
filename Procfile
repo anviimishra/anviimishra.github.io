@@ -1,1 +1,1 @@
-web: pnpm preview
+web: pnpm run preview

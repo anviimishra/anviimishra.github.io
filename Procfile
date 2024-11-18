@@ -1,1 +1,1 @@
-web: pnpm run preview
+web: pnpm install -g vite && pnpm preview

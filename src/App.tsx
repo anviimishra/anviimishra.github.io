@@ -1,21 +1,39 @@
 import { useState, useEffect } from 'react';
-import { Github, Linkedin, Youtube, Mail, MapPin, Sparkles, GraduationCap, Download, ChevronRight, ExternalLink, Code, Brain, Phone, Sun, Moon, Book } from 'lucide-react';
+import { Github, Linkedin, Youtube, Mail, MapPin, Sparkles, GraduationCap, 
+  Download, ChevronRight, ExternalLink, Code, Brain, Phone, Sun, Moon, Book, Send, Donut } from 'lucide-react';
 import myPic from "./mypicture.png";
+import AnimatedSkills from './Skills';
 
 const Portfolio = () => {
   const [activeSection, setActiveSection] = useState('home');
   const [isTyping, setIsTyping] = useState(true);
   const [hoveredProject, setHoveredProject] = useState<number | null>(null);
-  const [animateSkills, setAnimateSkills] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(true);
+  const [messageStatus, setMessageStatus] = useState('');
+  const [coffeeCount, setCoffeeCount] = useState(0);
+  const [isMessageSending, setIsMessageSending] = useState(false);
 
   useEffect(() => {
     const timeout = setTimeout(() => {
       setIsTyping(false);
-      setAnimateSkills(true);
     }, 2000);
     return () => clearTimeout(timeout);
   }, []);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsMessageSending(true);
+    setMessageStatus('sending');
+    
+    // Simulate sending message
+    await new Promise(resolve => setTimeout(resolve, 1500));
+    
+    setMessageStatus('sent');
+    setIsMessageSending(false);
+    e.target.reset();
+    
+    // Reset status after 3 seconds
+    setTimeout(() => setMessageStatus(''), 3000);
+  };
 
   const projects = [
     {
@@ -68,12 +86,6 @@ const Portfolio = () => {
     }
   ];
 
-  const skills = [
-    { name: "Machine Learning", level: 90 },
-    { name: "Web Development", level: 85 },
-    { name: "Python", level: 95 },
-    { name: "React", level: 80 }
-  ];
 
   return (
     <div className={`min-h-screen transition-colors duration-300 ${
@@ -150,28 +162,7 @@ const Portfolio = () => {
             </div>
 
             {/* Skills section */}
-            <div className="space-y-4">
-              <h3 className={`text-lg font-semibold ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>Core Skills</h3>
-              <div className="space-y-3">
-                {skills.map((skill, index) => (
-                  <div key={index} className="space-y-1">
-                    <div className="flex justify-between text-sm">
-                      <span>{skill.name}</span>
-                      <span className="text-purple-600">{skill.level}%</span>
-                    </div>
-                    <div className={`h-2 ${isDarkMode ? 'bg-gray-700' : 'bg-gray-200'} rounded-full overflow-hidden`}>
-                      <div 
-                        className="h-full bg-gradient-to-r from-purple-500 to-pink-500 rounded-full transition-all duration-1000 ease-out"
-                        style={{ 
-                          width: animateSkills ? `${skill.level}%` : '0%',
-                          transition: `width 1s ease-out ${index * 0.2}s`
-                        }}
-                      ></div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
+ <AnimatedSkills isDarkMode={isDarkMode} />
 
             {/* CTA buttons */}
             <div className="flex flex-wrap gap-4">
@@ -262,109 +253,170 @@ const Portfolio = () => {
 
       {/* Contact Section */}
       <section className={`min-h-screen py-20 ${activeSection === 'contact' ? 'block' : 'hidden'}`}>
-        <div className="container mx-auto px-8">
-          <h2 className="text-4xl font-bold text-center mb-12">
-            Get In <span className="text-purple-500">Touch</span>
-          </h2>
-          <div className="grid md:grid-cols-2 gap-12">
-            <div className="space-y-8">
-              <div className="flex items-center space-x-4">
-                <div className="p-4 bg-purple-700 rounded-full">
-                  <MapPin size={24} className="text-white" />
+    <div className="container mx-auto px-8">
+      <h2 className="text-4xl font-bold text-center mb-12">
+        Get In <span className="text-purple-500">Touch</span>
+      </h2>
+      
+      <div className="grid md:grid-cols-2 gap-12">
+        <div className="space-y-8">
+          {/* Existing contact info cards with animation */}
+          <div className="space-y-6">
+            {[
+              { icon: MapPin, title: "Location", content: "Baltimore, Maryland" },
+              { icon: Mail, title: "Email", content: "mishraanvii@gmail.com" },
+              { icon: GraduationCap, title: "Education", content: "Johns Hopkins University" }
+            ].map((item, index) => (
+              <div 
+                key={index}
+                className="flex items-center space-x-4 p-4 rounded-xl transition-all duration-300 hover:transform hover:scale-105"
+                style={{
+                  background: `linear-gradient(135deg, ${isDarkMode ? '#ffffff10' : '#ffffff'} 0%, transparent 100%)`
+                }}
+              >
+                <div className="p-4 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full">
+                  <item.icon size={24} className="text-white" />
                 </div>
                 <div>
-                  <h3 className="text-xl font-semibold">Location</h3>
-                  <p className={isDarkMode ? 'text-gray-400' : 'text-gray-600'}>Baltimore, Maryland</p>
+                  <h3 className="text-xl font-semibold">{item.title}</h3>
+                  <p className={isDarkMode ? 'text-gray-400' : 'text-gray-600'}>{item.content}</p>
                 </div>
               </div>
-              <div className="flex items-center space-x-4">
-                <div className="p-4 bg-purple-700 rounded-full">
-                  <Mail size={24} className="text-white" />
-                </div>
-                <div>
-                  <h3 className="text-xl font-semibold">Email</h3>
-                  <p className={isDarkMode ? 'text-gray-400' : 'text-gray-600'}>mishraanvii@gmail.com</p>
-                </div>
-              </div>
-              <div className="flex items-center space-x-4">
-                <div className="p-4 bg-purple-700 rounded-full">
-                  <GraduationCap size={24} className="text-white" />
-                </div>
-                <div>
-                  <h3 className="text-xl font-semibold">Education</h3>
-                  <p className={isDarkMode ? 'text-gray-400' : 'text-gray-600'}>Johns Hopkins University</p>
-                </div>
-              </div>
-              <div className="flex space-x-4">
-                {[
-                  { icon: Github, href: "https://github.com/anviimishra" },
-                  { icon: Linkedin, href: "https://www.linkedin.com/in/anvii-mishra-9a82b5270/" },
-                  { icon: Youtube, href: "https://www.youtube.com/channel/UCBimXHKXsDxTlhhDY8y5-ow" }
-                ].map((social, index) => (
-                  <a
-                    key={index}
-                    href={social.href}
-                    className={`p-4 rounded-full transition-colors ${
-                      isDarkMode 
-                        ? 'bg-gray-800 hover:bg-gray-700' 
-                        : 'bg-white hover:bg-gray-100 shadow-lg'
-                    }`}
-                    target="_blank"
-                    rel="noopener noreferrer"
+            ))}
+          </div>
+
+          {/* Fun interaction section */}
+          <div className="mt-8 p-6 rounded-xl bg-gradient-to-br from-purple-500/10 to-pink-500/10">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-xl font-semibold">Buy me a Donut 🍩</h3>
+              <button
+                onClick={() => setCoffeeCount(prev => prev + 1)}
+                className="p-3 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full hover:from-purple-500 hover:to-pink-500 transition-all duration-300 transform hover:scale-110"
+              >
+                <Donut className="text-white" size={20} />
+              </button>
+            </div>
+            <div className="flex items-center space-x-2">
+              <div className="flex -space-x-2">
+                {[...Array(Math.min(coffeeCount, 5))].map((_, i) => (
+                  <div
+                    key={i}
+                    className="w-8 h-8 rounded-full bg-gradient-to-r from-amber-400 to-amber-600 flex items-center justify-center transform transition-all duration-300"
+                    style={{ transform: `translateX(${i * 5}px) rotate(${i * 10}deg)` }}
                   >
-                    <social.icon size={24} className={isDarkMode ? 'text-gray-300' : 'text-gray-600'} />
-                  </a>
+                   🍩
+                  </div>
                 ))}
               </div>
+              <span className={`ml-4 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                {coffeeCount > 5 ? `+${coffeeCount - 5} more` : ''}
+              </span>
             </div>
-            <form className="space-y-6">
-              <div className="grid md:grid-cols-2 gap-6">
-                <input 
-                  type="text" 
-                  placeholder="Name" 
-                  className={`w-full p-4 rounded-lg focus:ring-2 focus:ring-purple-500 outline-none transition-colors ${
-                    isDarkMode 
-                      ? 'bg-gray-800 text-white placeholder-gray-400' 
-                      : 'bg-white text-gray-900 placeholder-gray-500 border border-gray-200'
-                  }`}
-                />
-                <input 
-                  type="email" 
-                  placeholder="Email" 
-                  className={`w-full p-4 rounded-lg focus:ring-2 focus:ring-purple-500 outline-none transition-colors ${
-                    isDarkMode 
-                      ? 'bg-gray-800 text-white placeholder-gray-400' 
-                      : 'bg-white text-gray-900 placeholder-gray-500 border border-gray-200'
-                  }`}
-                />
-              </div>
-              <input 
-                type="text" 
-                placeholder="Subject" 
-                className={`w-full p-4 rounded-lg focus:ring-2 focus:ring-purple-500 outline-none transition-colors ${
+          </div>
+
+          {/* Social links with hover effects */}
+          <div className="flex space-x-4">
+            {[
+              { icon: Github, href: "https://github.com/anviimishra", color: "hover:text-purple-500" },
+              { icon: Linkedin, href: "https://www.linkedin.com/in/anvii-mishra-9a82b5270/", color: "hover:text-blue-500" },
+              { icon: Youtube, href: "https://www.youtube.com/channel/UCBimXHKXsDxTlhhDY8y5-ow", color: "hover:text-red-500" }
+            ].map((social, index) => (
+              <a
+                key={index}
+                href={social.href}
+                className={`p-4 rounded-full transition-all duration-300 transform hover:scale-110 ${
                   isDarkMode 
-                    ? 'bg-gray-800 text-white placeholder-gray-400' 
-                    : 'bg-white text-gray-900 placeholder-gray-500 border border-gray-200'
-                }`}
-              />
-              <textarea 
-                placeholder="Message" 
-                rows={5}
-                className={`w-full p-4 rounded-lg focus:ring-2 focus:ring-purple-500 outline-none transition-colors ${
-                  isDarkMode 
-                    ? 'bg-gray-800 text-white placeholder-gray-400' 
-                    : 'bg-white text-gray-900 placeholder-gray-500 border border-gray-200'
-                }`}
-              ></textarea>
-              <button 
-                className="w-full py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg hover:from-purple-500 hover:to-pink-500 transition-colors font-semibold shadow-lg transform hover:scale-105 transition-transform duration-200"
+                    ? 'bg-gray-800 hover:bg-gray-700' 
+                    : 'bg-white hover:bg-gray-100 shadow-lg'
+                } ${social.color}`}
+                target="_blank"
+                rel="noopener noreferrer"
               >
-                Send Message
-              </button>
-            </form>
+                <social.icon size={24} />
+              </a>
+            ))}
           </div>
         </div>
-      </section>
+
+        {/* Enhanced contact form with animations */}
+        <form onSubmit={handleSubmit} className="space-y-6 relative">
+          <div className="grid md:grid-cols-2 gap-6">
+            <input 
+              type="text" 
+              placeholder="Name" 
+              required
+              className={`w-full p-4 rounded-lg focus:ring-2 focus:ring-purple-500 outline-none transition-all duration-300 ${
+                isDarkMode 
+                  ? 'bg-gray-800 text-white placeholder-gray-400' 
+                  : 'bg-white text-gray-900 placeholder-gray-500 border border-gray-200'
+              } transform hover:scale-105`}
+            />
+            <input 
+              type="email" 
+              placeholder="Email" 
+              required
+              className={`w-full p-4 rounded-lg focus:ring-2 focus:ring-purple-500 outline-none transition-all duration-300 ${
+                isDarkMode 
+                  ? 'bg-gray-800 text-white placeholder-gray-400' 
+                  : 'bg-white text-gray-900 placeholder-gray-500 border border-gray-200'
+              } transform hover:scale-105`}
+            />
+          </div>
+          <input 
+            type="text" 
+            placeholder="Subject" 
+            required
+            className={`w-full p-4 rounded-lg focus:ring-2 focus:ring-purple-500 outline-none transition-all duration-300 ${
+              isDarkMode 
+                ? 'bg-gray-800 text-white placeholder-gray-400' 
+                : 'bg-white text-gray-900 placeholder-gray-500 border border-gray-200'
+            } transform hover:scale-105`}
+          />
+          <textarea 
+            placeholder="Message" 
+            rows={5}
+            required
+            className={`w-full p-4 rounded-lg focus:ring-2 focus:ring-purple-500 outline-none transition-all duration-300 ${
+              isDarkMode 
+                ? 'bg-gray-800 text-white placeholder-gray-400' 
+                : 'bg-white text-gray-900 placeholder-gray-500 border border-gray-200'
+            } transform hover:scale-105`}
+          ></textarea>
+          
+          <button 
+            type="submit"
+            disabled={isMessageSending}
+            className={`w-full py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg 
+              hover:from-purple-500 hover:to-pink-500 transition-all duration-300 font-semibold 
+              shadow-lg transform hover:scale-105 flex items-center justify-center space-x-2
+              ${isMessageSending ? 'opacity-75 cursor-not-allowed' : ''}`}
+          >
+            <span>{isMessageSending ? 'Sending...' : 'Send Message'}</span>
+            <Send size={20} className={`transition-transform duration-300 ${isMessageSending ? 'animate-pulse' : ''}`} />
+          </button>
+
+          {/* Success/Error message */}
+          {messageStatus && (
+            <div 
+              className={`absolute bottom-full left-0 right-0 mb-4 p-4 rounded-lg text-white text-center transform transition-all duration-300 ${
+                messageStatus === 'sent' 
+                  ? 'bg-green-500' 
+                  : messageStatus === 'error' 
+                    ? 'bg-red-500' 
+                    : 'bg-purple-500'
+              }`}
+            >
+              {messageStatus === 'sent' 
+                ? '✨ Message sent successfully!' 
+                : messageStatus === 'error' 
+                  ? '❌ Error sending message' 
+                  : '📤 Sending message...'}
+            </div>
+          )}
+        </form>
+      </div>
+    </div>
+  </section>
     </div>
   );
 };

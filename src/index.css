@@ -2,17 +2,34 @@
 @tailwind components;
 @tailwind utilities;
 
-@keyframes gradient-xy {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+@layer base {
+  body {
+    font-family: 'Lora', Georgia, serif;
   }
-  
-  .animate-gradient-xy {
-    background-size: 200% 200%;
-    animation: gradient-xy 15s ease infinite;
-  }
-  
-  .animate-spin-slow {
-    animation: spin 3s linear infinite;
-  }
+}
+
+@keyframes blob1 {
+  0%, 100% { transform: translate(0px,   0px)   scale(1);   opacity: 0.55; }
+  30%       { transform: translate(70px, -80px)  scale(1.15); opacity: 0.35; }
+  65%       { transform: translate(-50px, 60px)  scale(0.9);  opacity: 0.65; }
+}
+@keyframes blob2 {
+  0%, 100% { transform: translate(0px,   0px)   scale(1);   opacity: 0.45; }
+  25%       { transform: translate(-80px, 50px)  scale(1.2);  opacity: 0.65; }
+  70%       { transform: translate(60px, -40px)  scale(0.85); opacity: 0.30; }
+}
+@keyframes blob3 {
+  0%, 100% { transform: translate(0px,   0px)   scale(1);   opacity: 0.40; }
+  40%       { transform: translate(50px,  70px)  scale(1.1);  opacity: 0.60; }
+  75%       { transform: translate(-60px,-50px)  scale(0.95); opacity: 0.25; }
+}
+@keyframes blob4 {
+  0%, 100% { transform: translate(0px,   0px)   scale(1);   opacity: 0.50; }
+  35%       { transform: translate(-40px,-70px)  scale(1.25); opacity: 0.30; }
+  70%       { transform: translate(80px,  40px)  scale(0.9);  opacity: 0.60; }
+}
+
+.blob1 { animation: blob1 9s  ease-in-out infinite; }
+.blob2 { animation: blob2 12s ease-in-out infinite; }
+.blob3 { animation: blob3 10s ease-in-out infinite; }
+.blob4 { animation: blob4 14s ease-in-out infinite; }
